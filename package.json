@@ -9,13 +9,13 @@
   "author": "Nathan Fuchs <fuchsnj@gmail.com>",
   "contributors": [],
   "license": "MIT",
-  "homepage": "https://github.com/fuchsnj/chess-javascript",
+  "homepage": "https://github.com/aitournament/chess-javascript",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fuchsnj/chess-javascript.git"
+    "url": "https://github.com/aitournament/chess-javascript.git"
   },
   "bugs": {
-    "url": "https://github.com/fuchsnj/chess-javascript/issues"
+    "url": "https://github.com/aitournament/chess-javascript/issues"
   },
   "main": "index.js",
   "files": [
