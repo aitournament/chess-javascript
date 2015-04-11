@@ -1,0 +1,2 @@
+// chess-javascript
+exports.Chess = require('./lib/chess/index.js');
