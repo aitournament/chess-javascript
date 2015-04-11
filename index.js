@@ -1,4 +1,5 @@
-function Chess() {
+function Chess(){
+
 }
 
 module.exports = Chess;
