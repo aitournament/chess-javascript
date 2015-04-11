@@ -1,5 +1,6 @@
 function Chess(){
 
 }
-
-module.exports = Chess;
+if(typeof module !== 'undefined'){
+	module.exports = Chess;
+}
