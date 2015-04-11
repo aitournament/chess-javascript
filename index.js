@@ -5,7 +5,7 @@ function Chess(history){
 	};
 	var stateChangeListeners = [];
 	self.reset = function(){
-		state.turn = Chess.PLAYERS.white; //if game is over, this is the winner
+		state.turn = Chess.PLAYERS.WHITE; //if game is over, this is the winner
 		state.enpassantCol = null;
 		state.canCastleRight = {
 			black: true,
@@ -81,28 +81,9 @@ function Chess(history){
 		this.historyIds = state.historyIds;
 		alertStateChangeListeners(null);
 	};
-	// self.clone = function(){
-	// 	return new Chess(JSON.parse(JSON.stringify(state)));
-	// };
+
 	self.getBoardId = function(){
 		return getStateId();
-		// var output = "";
-		// output += state.enpassantCol;
-		// output += state.canCastleLeft.white;
-		// output += state.canCastleLeft.black;
-		// output += state.canCastleRight.white;
-		// output += state.canCastleRight.black;
-		// for(var x =0; x<8; x++){
-		// 	for(var y=0; y<8; y++){
-		// 		if(state.board[x][y]){
-		// 			output += state.board[x][y];
-		// 		}else{
-		// 			output += ".";
-		// 		}
-				
-		// 	}
-		// }
-		// return output;
 	};
 	self.getBoardIdCount = function(){
 		var count = state.historyIds[self.getBoardId()];
@@ -188,7 +169,6 @@ function Chess(history){
 
 			if(keepChecking){
 				state = newState;
-				//var copy = self.clone();
 				partialMove(x,y,moves[a].x,moves[a].y,Chess.PIECE_TYPE.QUEEN,turn);//promotion type can't determine legality, so queen is used
 
 
@@ -251,12 +231,12 @@ function Chess(history){
 		return state.turn;
 	};
 	self.resign = function(color){
-		state.gameState = Chess.GAME_STATE.resign;
+		state.gameState = Chess.GAME_STATE.RESIGN;
 		state.turn = Chess.getOppositeColor(color);
 		var output = {
 			resign: color
 		};
-		if(color === Chess.PLAYERS.white){
+		if(color === Chess.PLAYERS.WHITE){
 			output.algebraicNotation = "0-1";
 		}else{
 			output.algebraicNotation = "1-0";
@@ -468,7 +448,7 @@ function Chess(history){
 		if(!self.legalMoveExists(Chess.getOppositeColor(state.turn))){//check for end game
 			kingPos = state.kingPos[Chess.getOppositeColor(state.turn)];
 			if(canPieceAttackPos(kingPos.x,kingPos.y,state.turn)){//check mate
-				state.gameState = Chess.GAME_STATE.check_mate;
+				state.gameState = Chess.GAME_STATE.CHECK_MATE;
 				move.algebraicNotation += "#";
 			}else{//stale mate
 				state.gameState = Chess.GAME_STATE.STALE_MATE;
@@ -504,9 +484,9 @@ function Chess(history){
 			if(state.drawRequested[Chess.getOppositeColor(turn)]){
 				state.gameState = Chess.GAME_STATE.DRAW;
 			}else if(isPlayersTurn && self.canDrawBy50MoveRule()){
-				state.gameState = Chess.GAME_STATE.fifty_moves;
+				state.gameState = Chess.GAME_STATE.FIFTY_MOVESs;
 			}else if(isPlayersTurn && self.canDrawByThreefoldRepetition()){
-				state.gameState = Chess.GAME_STATE.threefold_repetition;
+				state.gameState = Chess.GAME_STATE.THREEFOLD_REPETITION;
 			}
 			if(self.isGameOver() || !state.drawRequested[turn]){
 				state.history.push({
@@ -531,7 +511,7 @@ function Chess(history){
 	function getStateId(){
 		//return unique string based on state (to check for threefold rep)
 		var output="";
-		if(state.turn === Chess.PLAYERS.white){
+		if(state.turn === Chess.PLAYERS.WHITE){
 			output+='w';
 		}else{
 			output+='b';
@@ -576,7 +556,7 @@ function Chess(history){
 	function getPawnMoves(x,y,turn){
 		var output = [];
 		var attackPiece;
-		if(turn === Chess.PLAYERS.white){
+		if(turn === Chess.PLAYERS.WHITE){
 			if(!state.board[x][y-1]){//can move forward 1
 				output.push({x: x,y: y-1});
 				if(y === 6){//move forward 2
@@ -588,13 +568,13 @@ function Chess(history){
 			
 			if(x < 7){//attack right
 				attackPiece = state.board[x+1][y-1];
-				if(attackPiece && Chess.getPieceColor(attackPiece) === Chess.PLAYERS.black){
+				if(attackPiece && Chess.getPieceColor(attackPiece) === Chess.PLAYERS.BLACK){
 					output.push({x: x+1,y: y-1});
 				}
 			}
 			if(x > 0){//attack left
 				attackPiece = state.board[x-1][y-1];
-				if(attackPiece && Chess.getPieceColor(attackPiece) === Chess.PLAYERS.black){
+				if(attackPiece && Chess.getPieceColor(attackPiece) === Chess.PLAYERS.BLACK){
 					output.push({x: x-1,y: y-1});
 				}
 			}
@@ -614,13 +594,13 @@ function Chess(history){
 			}
 			if(x < 7){//atack right
 				attackPiece = state.board[x+1][y+1];
-				if(attackPiece && Chess.getPieceColor(attackPiece) === Chess.PLAYERS.white){
+				if(attackPiece && Chess.getPieceColor(attackPiece) === Chess.PLAYERS.WHITE){
 					output.push({x: x+1,y: y+1});
 				}
 			}
 			if(x > 0){//attack left
 				attackPiece = state.board[x-1][y+1];
-				if(attackPiece && Chess.getPieceColor(attackPiece) === Chess.PLAYERS.white){
+				if(attackPiece && Chess.getPieceColor(attackPiece) === Chess.PLAYERS.WHITE){
 					output.push({x: x-1,y: y+1});
 				}
 			}
@@ -788,7 +768,6 @@ function Chess(history){
 		return bishopMoves;
 	}
 	function getKingMoves(x,y,turn){
-		//console.log("getKingMoves:",x,y);
 		var output = [];
 		var oppositeTurn = Chess.getOppositeColor(turn);
 		if(state.canCastleRight[turn]){//castle right
@@ -857,28 +836,28 @@ function Chess(history){
 	}
 }
 Chess.GAME_STATE={
-	in_progress: 'in_progress',
-	check_mate: 'check_mate',
-	threefold_repetition: 'threefold_repetition',
-	fifty_moves: 'fifty_moves',
-	stale_mate: 'stale_mate',
-	draw: 'draw',
-	resign: 'resign'
+	IN_PROGRESS: 'in_progress',
+	CHECK_MATE: 'check_mate',
+	THREEFOLD_REPETITION: 'threefold_repetition',
+	FIFTY_MOVES: 'fifty_moves',
+	STALE_MATE: 'stale_mate',
+	DRAW: 'draw',
+	RESIGN: 'resign'
 };
 
 Chess.PIECE_ID={
-	king_white : 'K',
-	king_black : 'k',
-	queen_white : 'Q',
-	queen_black : 'q',
-	bishop_white : 'B',
-	bishop_black : 'b',
-	knight_white : 'N',
-	knight_black : 'n',
-	rook_white : 'R',
-	rook_black : 'r',
-	pawn_white : 'P',
-	pawn_black : 'p'
+	KING_WHITE : 'K',
+	KING_BLACK : 'k',
+	QUEEN_WHITE : 'Q',
+	QUEEN_BLACK : 'q',
+	BISHOP_WHITE : 'B',
+	BISHOP_BLACK : 'b',
+	KNIGHT_WHITE : 'N',
+	KNIGHT_BLACK : 'n',
+	ROOK_WHITE : 'R',
+	ROOK_BLACK : 'r',
+	PAWN_WHITE : 'P',
+	PAWN_BLACK : 'p'
 };
 Chess.PIECE_TYPE = {
 	KING: "king",
