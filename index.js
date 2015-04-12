@@ -930,4 +930,6 @@ Chess.getAlgebraicNotationPieceLetter = function(type){
 Chess.prototype = Object.create(require('events').EventEmitter.prototype);
 
 Object.freeze(Chess);
+
 module.exports = Chess;
+global.Chess = Chess;
