@@ -3,7 +3,6 @@ function Chess(history){
 	var state={
 
 	};
-	var stateChangeListeners = [];
 	self.reset = function(){
 		state.turn = Chess.PLAYERS.WHITE; //if game is over, this is the winner
 		state.enpassantCol = null;
@@ -79,7 +78,6 @@ function Chess(history){
 
 		state.historyIds[self.getBoardId()] = 1;
 		this.historyIds = state.historyIds;
-		alertStateChangeListeners(null);
 	};
 
 	self.getBoardId = function(){
@@ -95,9 +93,6 @@ function Chess(history){
 	};
 	self.requestDraw = function(turn){
 		return requestDrawPrivate(turn,true);
-	};
-	self.addStateChangeListener = function(func){
-		stateChangeListeners.push(func);
 	};
 	self.getPiece = function(x,y){
 		return state.board[x][y];
@@ -472,7 +467,7 @@ function Chess(history){
 		}
 
 		state.history.push(move);
-		alertStateChangeListeners(move);
+		self.emit('move', move);
 	}
 	function requestDrawPrivate(turn,beforeTurn){
 		var isPlayersTurn = (turn === state.turn);
@@ -501,11 +496,6 @@ function Chess(history){
 		var dest = state.board[x][y];
 		if(!dest || Chess.getPieceColor(dest) !== turn){
 			output.push({x: x,y: y});
-		}
-	}
-	function alertStateChangeListeners(move){
-		for(var a=0; a<stateChangeListeners.length; a++){
-			stateChangeListeners[a](move);
 		}
 	}
 	function getStateId(){
@@ -924,9 +914,7 @@ Chess.getAlgebraicNotationPieceLetter = function(type){
 	return "";
 };
 
+Chess.prototype = Object.create(require('events').EventEmitter.prototype);
 
 Object.freeze(Chess);
-
-if(typeof module !== 'undefined'){
-	module.exports = Chess;
-}
+module.exports = Chess;

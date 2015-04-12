@@ -111,15 +111,14 @@ describe('move pawn', function(){
 		});
 	});
 });
-describe('state change listener', function(){
+describe('move event', function(){
 	var chess;
 	var move = null;
 	beforeEach(function(){
 		chess = new Chess();
-		var listener = function(m){
+		chess.on('move', function(m){
 			move = m;
-		};
-		chess.addStateChangeListener(listener);
+		});
 		chess.move(0,6,0,5);
 	});
 	it('is called after a move', function(){
