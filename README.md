@@ -79,3 +79,17 @@ var gameState = chess.getGameState();//Chess.GAME_STATE.(IN_PROGRESS, CHECK_MATE
 	`data.promotionPiece` (String)
     
     Chess.PIECE_TYPE.(Queen, Knight, Rook, Bishop)
+    
+    `data.move` (Object)
+    ```javascript
+    {
+    	from: {
+        	x: x1,
+            y: y1
+        },
+        to: {
+            x: x2,
+            y: y2
+        }
+    }
+    ```
