@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/aitournament/chess-javascript.png?branch=master)](https://travis-ci.org/aitournament/chess-javascript)
 [![Dependency Status](https://david-dm.org/aitournament/chess-javascript.png)](https://david-dm.org/aitournament/chess-javascript)
 
-## Quick Start
+# Quick Start
 ```javascript
 var chess = new Chess();
 chess.on('move', function(move){...});
@@ -29,6 +29,17 @@ chess.resign(Chess.PLAYERS.BLACK);
 var gameOver = chess.isGameOver();
 var winner = chess.getWinner();//null if game is not over
 var gameState = chess.getGameState();//Chess.GAME_STATE.(IN_PROGRESS, CHECK_MATE, THREEFOLD_REPETITION, FIFTY_MOVES, STALE_MATE, DRAW, RESIGN)
+```
+
+#Browserify
+```
+npm install -g browserify
+browserify index.js > chess-javascript.js
+```
+in the browser
+```html
+<script src="chess-javascript.js"></script>
+var chess = new Chess();
 ```
 
 # Events
