@@ -106,7 +106,12 @@ describe('move pawn', function(){
 	});
 	it('should add move to move history', function(){
 		expect(chess.getMove(0)).to.deep.equal({
-			move: [0,6,0,5],
+			type: "move",
+			moveType: "normal",
+			move: {
+				from: {x:0, y:6},
+				to: {x:0, y:5}
+			},
 			algebraicNotation: "a3"
 		});
 	});
@@ -123,11 +128,17 @@ describe('move event', function(){
 	});
 	it('is called after a move', function(){
 		expect(move).to.deep.equal({
-			move: [0,6,0,5],
+			type: "move",
+			moveType: "normal",
+			move: {
+				from: {x:0, y:6},
+				to: {x:0, y:5}
+			},
 			algebraicNotation: "a3"
 		});
 	});
 });
+
 describe('draw', function(){
 	var chess;
 	beforeEach(function(){
@@ -147,6 +158,7 @@ describe('draw', function(){
 });
 describe("castle", function(){
 	var chess;
+	var castleMove;
 	beforeEach(function(){
 		chess = new Chess();
 		chess.move(4,6,4,5);//white pawn forward 1
@@ -155,10 +167,22 @@ describe("castle", function(){
 		chess.move(0,0,0,1);//black rook down 1
 		chess.move(6,7,7,5);//white knight up right
 		chess.move(0,1,0,0);//black rook up 1
+		chess.on('move', function(move){
+			castleMove = move;
+		});
 		chess.move(4,7,6,7);//white king castle right
 	});
 	it('should castle the rook right', function(){
 		assert(chess.getPiece(5,7) === Chess.PIECE.ROOK_WHITE);
 		assert(chess.getPiece(6,7) === Chess.PIECE.KING_WHITE);
+		expect(castleMove).deep.equal({
+			type: "move",
+			moveType: "castle",
+			move: {
+				from: {x:4, y:7},
+				to: {x:6, y:7}
+			},
+			algebraicNotation: "0-0"
+		});
 	});
 });

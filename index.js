@@ -313,7 +313,7 @@ function Chess(history){
 		var enpassantMove = false;
 		var queenSideCastle = false;
 		var kingSideCastle = false;
-
+		var enpassantCapturePiece;
 
 		if(piece2){
 			if(state.capturedPieces[piece2]){
@@ -334,7 +334,7 @@ function Chess(history){
 				}
 				if(!piece2 && x1 !== x2){//enpassant move
 					enpassantMove = true;
-					var enpassantCapturePiece = state.board[x2][y1];
+					enpassantCapturePiece = state.board[x2][y1];
 					if(state.capturedPieces[enpassantCapturePiece]){
 						state.capturedPieces[enpassantCapturePiece]++;
 					}else{
@@ -361,27 +361,35 @@ function Chess(history){
 		}
 
 		if(move){
+			if(piecePromoted){
+				move.moveType = "promotion";
+			}
 			if(!move.algebraicNotation){
 				move.algebraicNotation = "";
 			}
 			move.algebraicNotation += Chess.getAlgebraicNotationPieceLetter(Chess.getPieceType(piece1));
 			if(enpassantMove){
-				move.algebraicNotation += "abcdefgh"[x1];
+				move.algebraicNotation += ("abcdefgh"[x1]);
 			}
 			if(piece2 || enpassantMove){
 				move.algebraicNotation += "x";
 			}
-			move.algebraicNotation += "abcdefgh"[x2]+(8-y2);
+			move.algebraicNotation += ("abcdefgh"[x2]) + (8 - y2);
 			if(piecePromoted){
 				move.algebraicNotation += Chess.getAlgebraicNotationPieceLetter(promotionPiece);
 			}
 			if(enpassantMove){
+				move.moveType = "enpassant";
+				move.enpassantPos = {x:x2, y:y1};
+				move.enpassantPiece = enpassantCapturePiece;
 				move.algebraicNotation += "e.p.";
 			}
 			if(queenSideCastle){
+				move.moveType = "castle";
 				move.algebraicNotation = "0-0-0";
 			}
 			if(kingSideCastle){
+				move.moveType = "castle";
 				move.algebraicNotation = "0-0";
 			}
 		}
@@ -392,10 +400,15 @@ function Chess(history){
 		requestDraw = requestDraw || false;
 		promotionPiece = promotionPiece || Chess.PIECE_TYPE.QUEEN;
 		var move = {
-			move: [x1,y1,x2,y2]
+			move: {
+				from: {x:x1, y:y1},
+				to: {x:x2, y:y2}
+			},
+			type: "move",
+			moveType: "normal"
 		};
 		if(promotionPiece !== Chess.PIECE_TYPE.QUEEN){
-			move.promotion_piece = promotionPiece;
+			move.promotionPiece = promotionPiece;
 		}
 		if(requestDraw){
 			move.requestDraw = state.turn;
