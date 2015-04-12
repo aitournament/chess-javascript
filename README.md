@@ -58,38 +58,23 @@ var gameState = chess.getGameState();//Chess.GAME_STATE.(IN_PROGRESS, CHECK_MATE
     }
     ```
     
+    `data.moveType` (String)
+    - "castle"
+    - "enpassant"
     
-- "castle"
-- "enpassant"
+    	`data.enpassantPos` (Object)
+	    
+		```javascript
+		{
+			x: x,
+			y: y
+		}
+		```
+    
+    - "promotion"
 
-	`data.enpassantPos` (Object)
-    ```javascript
-    {
-    	x: x,
-        y: y
-    }
-    ```
-    
-    `data.enpassantPiece` (String)
-    
-    Chess.PIECE_TYPE.(Queen, Knight, Rook, Bishop, Pawn)
-    
-- "promotion"
-
-	`data.promotionPiece` (String)
-    
-    Chess.PIECE_TYPE.(Queen, Knight, Rook, Bishop)
-    
-    `data.move` (Object)
-    ```javascript
-    {
-    	from: {
-        	x: x1,
-            y: y1
-        },
-        to: {
-            x: x2,
-            y: y2
-        }
-    }
-    ```
+		`data.promotionPiece` (String)
+		- Chess.PIECE_TYPE.QUEEN
+		- Chess.PIECE_TYPE.KNIGHT
+		- Chess.PIECE_TYPE.BISHOP
+		- Chess.PIECE_TYPE.PAWN
