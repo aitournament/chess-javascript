@@ -849,18 +849,18 @@ Chess.GAME_STATE={
 };
 
 Chess.PIECE_ID={
-	KING_WHITE : 'K',
-	KING_BLACK : 'k',
-	QUEEN_WHITE : 'Q',
-	QUEEN_BLACK : 'q',
-	BISHOP_WHITE : 'B',
-	BISHOP_BLACK : 'b',
-	KNIGHT_WHITE : 'N',
-	KNIGHT_BLACK : 'n',
-	ROOK_WHITE : 'R',
-	ROOK_BLACK : 'r',
-	PAWN_WHITE : 'P',
-	PAWN_BLACK : 'p'
+	"king_white" : 'K',
+	"king_black" : 'k',
+	"queen_white" : 'Q',
+	"queen_black" : 'q',
+	"bishop_white" : 'B',
+	"bishop_black" : 'b',
+	"knight_white" : 'N',
+	"knight_black" : 'n',
+	"rook_white" : 'R',
+	"rook_black" : 'r',
+	"pawn_white" : 'P',
+	"pawn_black" : 'p'
 };
 Chess.PIECE_TYPE = {
 	KING: "king",

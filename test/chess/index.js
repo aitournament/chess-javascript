@@ -186,3 +186,31 @@ describe("castle", function(){
 		});
 	});
 });
+describe("threefold repetition", function(){
+	var chess;
+	beforeEach(function(){
+		chess = new Chess();
+	});
+	it('board id should be correct at start of game', function(){
+		expect(chess.getBoardId()).to.equal("w1111-rnbqkbnrpppppppp--------------------------------PPPPPPPPRNBQKBNR");
+	});
+	it('board id count should start at 1', function(){
+		expect(chess.getBoardIdCount() === 1);
+		expect(chess.canDrawByThreefoldRepetition()).to.equal(false);
+	});
+	it('threefold repetition should be possible when board id count = 3', function(){
+		chess.move(1,7,0,5);//white knight up left
+		chess.move(1,0,0,2);//black knight down left
+		chess.move(0,5,1,7);//white knight down right
+		chess.move(0,2,1,0);//black knight up right
+		expect(chess.getBoardIdCount() === 2);
+		expect(chess.canDrawByThreefoldRepetition()).to.equal(false);
+		chess.move(1,7,0,5);//white knight up left
+		chess.move(1,0,0,2);//black knight down left
+		chess.move(0,5,1,7);//white knight down right
+		chess.move(0,2,1,0);//black knight up right
+		expect(chess.getBoardIdCount() === 3);
+		expect(chess.canDrawByThreefoldRepetition()).to.equal(true);
+	});
+
+});
